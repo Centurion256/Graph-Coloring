@@ -2,12 +2,22 @@ import copy
 
 
 class ColouredGraph:
+    """ 
+    A data structure for representing coloured graphs.
+    """
     def __init__(self, matrix, colours):
         self._adjacency_list = self.matrix_to_dict(matrix)
         self.colours = colours
 
     @staticmethod
     def matrix_to_dict(matrix):
+        """
+        Converts an adjancency matrix to an adjacency list(dict).
+
+        :param matrix: An adjacency matrix.
+        :returns: A dictionary object that represents an adjacency list.
+        :rtype: dict
+        """
         return {col: {'adjacent': {row for row in range(len(matrix[col])) if matrix[col][row] != 0}, 'colour': None} for
                 col in range(len(matrix))}
 
@@ -20,6 +30,14 @@ class ColouredGraph:
         return self._adjacency_list[pos]
 
     def colour(self, node, color):
+        """
+        Colours a given vertex with the specified colour.
+
+        :param node: a vertex, an integer value.
+        :param color: the colour in which the vertex should be painted. 
+        :returns: A boolean value, signifying that the colouring operation was completed sucessfully.
+        :rtype: bool
+        """
         if color not in self.colours:
             raise KeyError(f"Colour \'{color}\' is not available for this graph.")
         if any(self._adjacency_list[adjacent]['colour'] == color for adjacent in
@@ -39,13 +57,15 @@ class ColouredGraph:
                 print(self, "\n")
                 if self.__color_helper(vertex + 1):
                     return True
-                else:
-                    self._adjacency_list[vertex]['colour'] = None
+                self._adjacency_list[vertex]['colour'] = None
             except ValueError:
                 continue
         return False
 
     def color_graph(self):
+        """ 
+        Colours graph with colours privided.
+        """
         graph = copy.deepcopy(self)
         status = graph.__color_helper()
         if status is True:
