@@ -79,7 +79,8 @@ class ColouredGraph:
         Show graph in default image viewer program
         """
         # create Graph object from python-igraph library
-        g = Graph([(a, b) for a in range(len(self._adjacency_list)) for b in self._adjacency_list[a]['adjacent']])
+        g = Graph([(a, b) for a in range(len(self._adjacency_list))
+                   for b in self._adjacency_list[a]['adjacent'] if a < b])
 
         # add labels to vertices to distinguish between them
         g.vs["label"] = list(range(len(self._adjacency_list)))
