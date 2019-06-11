@@ -60,14 +60,16 @@ class ColouredGraph(object):
 
                 continue
 
+        return False
+
     def color_graph(self, bichromatic=False):
         
-        graph = copy.copy(self)
+        graph = copy.deepcopy(self)
         if len(graph._adjacency_list) < len(graph.colours):
 
             return False
 
-        status = self.__color_helper()
+        status = graph.__color_helper()
         if status == True:
 
             self = graph
@@ -77,7 +79,7 @@ class ColouredGraph(object):
 if __name__ == "__main__":
     
     matrix = [[1,1,1,1],[1,0,1,1],[1,1,0,1],[1,1,1,0]]
-    graph = ColouredGraph(matrix, {"R", "G", "B", "Y"})
+    graph = ColouredGraph(matrix, {"R", "G", "B"})
     #graph.colour(1, 'R')
     #graph.colour(2, 'R')
     #graph.colour(0, 'G')
