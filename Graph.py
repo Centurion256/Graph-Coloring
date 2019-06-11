@@ -1,10 +1,12 @@
 import copy
+from igraph import Graph, plot
 
 
 class ColouredGraph:
     """ 
     A data structure for representing coloured graphs.
     """
+
     def __init__(self, matrix, colours):
         self._adjacency_list = self.matrix_to_dict(matrix)
         self.colours = colours
@@ -54,7 +56,6 @@ class ColouredGraph:
         for color in self.colours:
             try:
                 self.colour(vertex, color)
-                print(self, "\n")
                 if self.__color_helper(vertex + 1):
                     return True
                 self._adjacency_list[vertex]['colour'] = None
@@ -72,13 +73,24 @@ class ColouredGraph:
             self._adjacency_list = graph._adjacency_list
         return status
 
+    def show(self):
+        """
+        Show graph in default image viewer program
+        """
+        # create Graph object from python-igraph library
+        g = Graph([(a, b) for a in range(len(self._adjacency_list)) for b in self._adjacency_list[a]['adjacent']])
 
-if __name__ == "__main__":
-    mtr = [[0, 1, 1, 0, 1, 1], [1, 0, 1, 1, 0, 1], [1, 1, 0, 1, 1, 0], [0, 1, 1, 0, 1, 1], [1, 0, 1, 1, 0, 1],
-              [1, 1, 0, 1, 1, 0]]
-    graph = ColouredGraph(mtr, ("R", "G", "B"))
-    # graph.colour(1, 'R')
-    # graph.colour(2, 'R')
-    # graph.colour(0, 'G')
-    print(graph.color_graph())
-    print(graph)
+        # add labels to vertices to distinguish between them
+        g.vs["label"] = list(range(len(self._adjacency_list)))
+
+        # add proper color to every vertex
+        for vertex in g.vs:
+            if self._adjacency_list[vertex['label']]['colour'] is None:
+                # if vertes is not colored
+                vertex['color'] = "#FFFFFF"
+            else:
+                vertex["color"] = self._adjacency_list[vertex['label']]['colour']
+
+        # show the graph to user
+        plot(g, vertex_size=35, edge_width=2, vertex_label_dist=1.5, vertex_label_size=20, margin=40,
+             vertex_label_angle=1.57, edge_color="#888888")
