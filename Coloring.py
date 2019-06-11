@@ -1,7 +1,4 @@
-from Graph import Graph
-
-# generate the lost of colors being used in graph coloring
-colors_list = ["#FC4040", "#40FC40", "#4040FC", "#FCFC40", "#FC40FC", "#40FCFC", "#B57955"]
+from Graph import ColouredGraph
 
 # get the number of vertices fro user
 vertices = 0
@@ -20,7 +17,7 @@ print(f"Added vertices {', '.join(map(str, range(vertices)))}")
 # get the connected vertices from user
 while True:
     pair = input(
-        "Enter the pair of connected vertices(e.g. '0 2'(without quotes)) or press return to finish prompt:")
+        "Enter the pair of connected vertices(e.g. '0 2'(without quotes)) or press return to finish prompt: ")
     if not pair:
         break
     pair.replace(',', '')
@@ -42,7 +39,7 @@ while not colors:
         colors = 0
 
 # crete graph and try to colour it
-graph = ColouredGraph(matrix, colors_list[:colors])
+graph = ColouredGraph(matrix, colors)
 if not graph.color_graph():
     print(f"Cant colour this graph into {colors} colors")
 

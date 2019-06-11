@@ -3,13 +3,14 @@ from igraph import Graph, plot
 
 
 class ColouredGraph:
+    colors_list = ["#FC4040", "#40FC40", "#4040FC", "#FCFC40", "#FC40FC", "#40FCFC", "#B57955"]
     """ 
     A data structure for representing coloured graphs.
     """
 
     def __init__(self, matrix, colours):
         self._adjacency_list = self.matrix_to_dict(matrix)
-        self.colours = colours
+        self.colours = ColouredGraph.colors_list[:colours]
 
     @staticmethod
     def matrix_to_dict(matrix):
