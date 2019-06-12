@@ -1,4 +1,5 @@
 from graph import ColouredGraph
+import re
 
 # get the number of vertices fro user
 vertices = 0
@@ -10,19 +11,18 @@ while not vertices:
     except ValueError:
         vertices = 0
 
-# generate adjacency matrix
+# generate an adjacency matrix
 matrix = [[0 for i in range(vertices)] for j in range(vertices)]
 print(f"Added vertices {', '.join(map(str, range(vertices)))}")
 
 # get the connected vertices from user
 while True:
-    pair = input(
-        "Enter the pair of connected vertices(e.g. '0 2'(without quotes)) or press return to finish prompt: ")
+    pair = re.search(r'(\d{1,}).*?(\d{1,})', input(
+        "Enter the pair of connected vertices(e.g. '0 2'(without quotes)) or press return to finish prompt: "))
     if not pair:
         break
-    pair.replace(',', '')
     try:
-        a, b = map(int, pair.split())
+        a, b = map(int, pair.groups())
         matrix[a][b] = 1
         matrix[b][a] = 1
     except:
@@ -38,7 +38,7 @@ while not colors:
     except ValueError:
         colors = 0
 
-# crete graph and try to colour it
+# create a graph and try to colour it
 graph = ColouredGraph(matrix, colors)
 if not graph.color_graph():
     print(f"Cant colour this graph into {colors} colors")

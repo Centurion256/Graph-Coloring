@@ -22,8 +22,8 @@ class ColouredGraph:
         Converts an adjancency matrix to an adjacency list.
 
         :param matrix: An adjacency matrix.
-        :returns: A dictionary object that represents an adjacency list.
-        :rtype: dict
+        :returns: A list object that represents an adjacency list.
+        :rtype: list
         """
         return [{'adjacent': {row for row in range(len(matrix[col])) if matrix[col][row] != 0}, 'colour': None} for
                 col in range(len(matrix))]
@@ -81,7 +81,7 @@ class ColouredGraph:
 
     def color_graph(self):
         """ 
-        Colours graph with colours pri]ovided.
+        Colours the graph. Uses colours from the 'colours' attribute.
         """
         # create new graph object not to mekt the method destructive
         graph = copy.deepcopy(self)
@@ -99,7 +99,7 @@ class ColouredGraph:
         """
         # create Graph object from python-igraph library
         g = Graph([(a, b) for a in range(len(self._adjacency_list))
-                   for b in self._adjacency_list[a]['adjacent'] if a < b])
+                   for b in self._adjacency_list[a]['adjacent'] if b >= a])
 
         # add labels to vertices to distinguish between them
         g.vs["label"] = list(range(len(self._adjacency_list)))
